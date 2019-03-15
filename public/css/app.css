@@ -5,11 +5,10 @@
   background-color: #fed420;
   overflow: hidden;
   overscroll-behavior: none;
-  background-image: 'bushes.svg';
 }
 
 #app {
-  background-image: url(https://i.pinimg.com/736x/c0/bc/96/c0bc96dbd888c427b4190e35e1f7d23b--wallpaper-for-iphone-s-les-simpson.jpg);
+  background-image: url('../img/homer.jpeg');
   background-position: 50% 50%;
   background-size: contain;
   background-repeat: no-repeat;
