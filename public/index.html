@@ -4,22 +4,66 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Homer</title>
-    <meta content="Homer infinite." name="description">
-    <link href="./css/app.css" rel="stylesheet" type="text/css" />
-    <link rel="manifest" href="manifest.json">
-    <script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.7/pwacompat.min.js"
-        integrity="sha384-ptgwb3/v69WGur7IwSnWOowVxE7hcRB3DG/EiHdejrw2sFNwUHynFbiRMPxc4hdS"
-        crossorigin="anonymous"></script>
+    <meta content="Homer infinite." name="description" />
+    <link rel="manifest" href="manifest.json" />
+    <style>
+      :root {
+        cursor: none;
+        --x: 0;
+        --y: 0;
+        background-color: #fed420;
+        overflow: hidden;
+        overscroll-behavior: none;
+      }
+
+      img {
+        transform: translateX(var(--x)) translateY(var(--y)) scaleX(-1);
+        transition: ease;
+      }
+    </style>
   </head>
   <body>
-    <div id="app"></div>
-    <script src="./js/app.js" type="text/javascript"></script>
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js');
+    <img
+      alt="Homer Simpson's face"
+      src="../img/homer.jpeg"
+      width="250"
+      height="370"
+    />
+    <script type="module">
+      const root = document.documentElement;
+      const HEIGHT = 370;
+      const WIDTH = 250;
+
+      function addEvent(eventType) {
+        root.addEventListener(eventType, (event) => {
+          window.requestAnimationFrame(() => {
+            event.preventDefault();
+
+            if (event.targetTouches) {
+              root.style.setProperty(
+                "--x",
+                `${event.targetTouches[0].clientX - WIDTH / 2}px`
+              );
+              root.style.setProperty(
+                "--y",
+                `${event.targetTouches[0].clientY - HEIGHT / 2}px`
+              );
+            } else {
+              root.style.setProperty("--x", `${event.clientX - WIDTH / 2}px`);
+              root.style.setProperty("--y", `${event.clientY - HEIGHT / 2}px`);
+            }
+          });
         });
       }
+
+      window.addEventListener("dragstart", (event) => {
+        if (event.target.nodeName.toUpperCase() === "IMG") {
+          event.preventDefault();
+        }
+      });
+
+      addEvent("mousemove");
+      addEvent("touchmove");
     </script>
   </body>
 </html>
